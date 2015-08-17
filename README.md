@@ -1,25 +1,21 @@
 # README #
 
-This repo contains build files for basic Apache-based Docker images, suitable
-for many web applications or for use in deriving your own, more specific images.
+This is an Apache image including SSL and PHP5 support. In order to use this image effectively, you'll need to mount:
 
-Included are the following:  
+- /var/www for your site content (e.g. using "-v /home/jdoe/mysite/:/var/www/")
+- /var/log/apache2, optionally, if you want to store logfiles visibly outside the container
+- /etc/ssl, optionally, if you wish to use SSL with real keys
 
-- apache: A simple Apache install, including SSL support
-- apache-php: The above, but including PHP5 support
-- laravel: As apache-php, with the Laravel framework ready for your app code
-- phalcon: As apache-php, with the Phalcon framework ready for your app code
+## A note on SSL ##
 
-Feel free to derive images from any of the above, which are available as
-eboraas/apache, eboraas/apache-php, eboraas/laravel, and eboraas/phalcon. I
-do try to keep the public builds as up-to-date as possible.
+As per the defaults, Apache will use the bundled "snakeoil" key when serving SSL. Obviously this isn't sufficient or advisable for production, so you'll want to mount your real keys onto /etc/ssl/. If you name them "certs/ssl-cert-snakeoil.pem" and "private/ssl-cert-snakeoil.key", you'll be able to get by with the default config. Otherwise, you'll want to include a revised site definition. If you don't want to use SSL, you can avoid forwarding port 443 when launching the container (see below).
 
-They are built, by default, against my Debian images, which are publicly available
-via Docker Hub, and can thus be built as-is or retargeted against other Debian 
-base images, if you prefer.
+## Simple Examples ##
 
-If you're interested, sources for my Debian images and instructions for
-building your own can be found at:  
-  https://bitbucket.org/EdBoraas/debian-docker
+Assuming you have your content at /home/jdoe/mysite/, the below will be sufficient to serve it. Note that many Docker users encourage mounting data from a storage container, rather than directly from the filesyetem.
 
--Ed
+- "It works!": `docker run -p 80:80 -p 443:443 -d eboraas/apache-php` and browse to the host's IP address using http or https
+- Serving actual content with SSL support: `docker run -p 80:80 -p 443:443 -v /home/jdoe/mysite/:/var/www/ -d eboraas/apache-php`
+- ... without SSL support: `docker -p 80:80 -v /home/jdoe/mysite/:/var/www/ -d eboraas/apache-php`
+- ... using non-standard ports: `docker -p 8080:80 -p 8443:443 -v /home/jdoe/mysite/:/var/www/ -d eboraas/apache-php`
+

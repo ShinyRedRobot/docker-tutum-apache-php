@@ -9,7 +9,7 @@ RUN apt-get update \
     php5-mcrypt \
     php5-mysqlnd \
   && apt-get clean \
-  && a2enmod socache_shmcb \
+  && a2enmod socache_shmcb rewrite \
   && echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 EXPOSE 80

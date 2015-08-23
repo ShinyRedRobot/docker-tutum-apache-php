@@ -8,7 +8,11 @@ This is an Apache image including SSL and PHP5 support. In order to use this ima
 
 ## A note on SSL ##
 
-As per the defaults, Apache will use the bundled "snakeoil" key when serving SSL. Obviously this isn't sufficient or advisable for production, so you'll want to mount your real keys onto /etc/ssl/. If you name them "certs/ssl-cert-snakeoil.pem" and "private/ssl-cert-snakeoil.key", you'll be able to get by with the default config. Otherwise, you'll want to include a revised site definition. If you don't want to use SSL, you can avoid forwarding port 443 when launching the container (see below).
+As per the defaults, Apache will use the bundled "snakeoil" key when serving SSL. Obviously this isn't sufficient or 
+advisable for production, so you'll want to mount your real keys onto /etc/ssl/. If you name them 
+"certs/ssl-cert-snakeoil.pem" and "private/ssl-cert-snakeoil.key", you'll be able to get by with the default config. 
+Otherwise, you'll want to include a revised site definition. If you don't want to use SSL, you can avoid forwarding 
+port 443 when launching the container (see below).
 
 ## Simple Examples ##
 
